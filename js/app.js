@@ -1,16 +1,16 @@
-const H_MOVE = 100;
-const V_MOVE = 85;
-const H_INIT = 200;
+const H_MOVE = 101;
+const V_MOVE = 83;
+const H_INIT = 202;
 const V_INIT = 400;
 
 // Enemies our player must avoid
-class Enemy() {
+class Enemy {
     constructor(x, y) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
         this.x = x;
         this.y = y;
-        this.speed = 10;
+        this.speed = 100;
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -36,7 +36,7 @@ class Enemy() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-class Player() {
+class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -49,16 +49,28 @@ class Player() {
 
     handleInput(move) {
         if(move === 'right') {
-            this.x += H_MOVE;
+            if(this.x < 404) {
+                this.x += H_MOVE;
+                console.log(`${this.x}, ${this.y}`);
+            }
         }
         else if(move === 'left'){
-            this.x -= H_MOVE;
+            if(this.x > 0) {
+                this.x -= H_MOVE;
+                console.log(`${this.x}, ${this.y}`);
+            }
         }
         else if(move === 'up') {
-            this.y -= V_MOVE;
+            if(this.y > 58) {
+                this.y -= V_MOVE;
+                console.log(`${this.x}, ${this.y}`);
+            }
         }
         else if(move === 'down') {
-            this.y += V_MOVE;
+            if(this.y < 386) {
+                this.y += V_MOVE;
+                console.log(`${this.x}, ${this.y}`);
+            }
         }
     }
 
@@ -71,8 +83,8 @@ class Player() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [
-new Enemy(100, 0),
-new Enemy(200, 0)
+new Enemy(0, 100),
+new Enemy(0, 200)
 ];
 // Place the player object in a variable called player
 let player = new Player(H_INIT, V_INIT);
