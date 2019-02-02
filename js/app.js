@@ -1,3 +1,8 @@
+const H_MOVE = 100;
+const V_MOVE = 85;
+const H_INIT = 200;
+const V_INIT = 400;
+
 // Enemies our player must avoid
 class Enemy() {
     constructor(x, y) {
@@ -44,16 +49,16 @@ class Player() {
 
     handleInput(move) {
         if(move === 'right') {
-            this.x += hMove;
+            this.x += H_MOVE;
         }
         else if(move === 'left'){
-            this.x -= hMove;
+            this.x -= H_MOVE;
         }
         else if(move === 'up') {
-            this.y -= vMove;
+            this.y -= V_MOVE;
         }
         else if(move === 'down') {
-            this.y += vMove;
+            this.y += V_MOVE;
         }
     }
 
@@ -68,9 +73,9 @@ class Player() {
 let allEnemies = [
 new Enemy(100, 0),
 new Enemy(200, 0)
-]
+];
 // Place the player object in a variable called player
-let player = new Player(hInit, vInit);
+let player = new Player(H_INIT, V_INIT);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
