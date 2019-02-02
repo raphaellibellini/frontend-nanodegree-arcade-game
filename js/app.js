@@ -65,8 +65,12 @@ class Player() {
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+let allEnemies = [
+new Enemy(100, 0),
+new Enemy(200, 0)
+]
 // Place the player object in a variable called player
-
+let player = new Player(hInit, vInit);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
