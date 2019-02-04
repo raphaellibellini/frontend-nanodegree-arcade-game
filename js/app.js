@@ -24,6 +24,10 @@ class Enemy {
     // which will ensure the game runs at the same speed for
     // all computers.
         this.x += this.speed * dt;
+    // When the enemy leaves the board, return to the beginning of the screen.
+        if(this.x > 500) {
+            this.x = 0;
+        }
     }
 
     // Draw the enemy on the screen, required method for game
@@ -71,7 +75,7 @@ class Player {
                 this.y += V_MOVE;
                 console.log(`${this.x}, ${this.y}`);
             }
-        }
+        } 
     }
 
     render() {
