@@ -95,8 +95,15 @@ class Player {
         } 
     }
 
+    win() {
+        if(this.y === -15){
+            $("#myModal").modal();
+        }
+    }
+
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        player.win();
     }
 }
 
@@ -122,3 +129,4 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
