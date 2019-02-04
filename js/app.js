@@ -11,6 +11,8 @@ class Enemy {
         this.x = x;
         this.y = y;
         this.speed = 100;
+        this.width = 75;
+        this.height = 50;
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -34,6 +36,19 @@ class Enemy {
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
+
+    // The following code is taken from 
+    // MDN: https://developer.mozilla.org/kab/docs/Games/Techniques/2D_collision_detection
+    collision(player) {
+        if (this.x < player.x + player.width &&
+           this.x + this.width > player.x &&
+           this.y < player.y + player.height &&
+           this.y + this.height > player.y) {
+            // collision detected!
+            player.x = H_INIT;
+            player.y = V_INIT;
+        }
+    }
 }
 
 
@@ -45,6 +60,8 @@ class Player {
         this.x = x;
         this.y = y;
         this.sprite = 'images/char-boy.png';
+        this.width = 75;
+        this.height = 50;
     }
     
     update(dt, enemy) {
@@ -87,8 +104,8 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [
-new Enemy(0, 100),
-new Enemy(0, 200)
+new Enemy(0, 68),
+new Enemy(0, 234)
 ];
 // Place the player object in a variable called player
 let player = new Player(H_INIT, V_INIT);
