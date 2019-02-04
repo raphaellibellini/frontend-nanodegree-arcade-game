@@ -5,7 +5,7 @@ const V_INIT = 400;
 
 // Enemies our player must avoid
 class Enemy {
-    constructor(x, y) {
+    constructor(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
         this.x = x;
@@ -104,8 +104,8 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [
-new Enemy(0, 68),
-new Enemy(0, 234)
+new Enemy(0, 68, 150),
+new Enemy(0, 234, 100)
 ];
 // Place the player object in a variable called player
 let player = new Player(H_INIT, V_INIT);
