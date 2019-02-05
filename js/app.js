@@ -84,7 +84,7 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.sprite = 'images/char-boy.png';
+        this.sprite = 'images/char-cat-girl.png';
         this.width = 75;
         this.height = 50;
     }
@@ -150,7 +150,8 @@ class Player {
 let allEnemies = [
 new Enemy(0, 68, 200),
 new Enemy(0, 234, 100),
-new Enemy(0, 151, 175)
+new Enemy(0, 151, 175),
+new Enemy(404, 317, 200)
 ];
 // Place the player object in a variable called player
 let player = new Player(H_INIT, V_INIT);
