@@ -3,6 +3,31 @@ const V_MOVE = 83;
 const H_INIT = 202;
 const V_INIT = 400;
 
+let minutes = 0;
+let seconds = 1;
+
+function timer () {
+    if(seconds < 10){
+        $('#seconds').text("0" + seconds);
+    }else{
+        $('#seconds').text(seconds);
+    }
+
+    if(minutes < 10){
+        $('#minutes').text("0" + minutes);
+    }else{
+        $('#minutes').text(minutes);
+    }
+    
+    seconds++;
+    if(seconds === 60) {
+        seconds = 0;
+        minutes++;   
+    }
+}
+
+let clock = setInterval(timer, 1000);
+
 // Enemies our player must avoid
 class Enemy {
     constructor(x, y, speed) {
@@ -10,7 +35,7 @@ class Enemy {
     // we've provided one for you to get started
         this.x = x;
         this.y = y;
-        this.speed = 100;
+        this.speed = speed;
         this.width = 75;
         this.height = 50;
 
@@ -97,7 +122,15 @@ class Player {
 
     win() {
         if(this.y === -15){
+            clearInterval(clock);
+
             $("#myModal").modal();
+
+            let modalTime = $('#minutes').text() + ":" + $('#seconds').text();
+            $('#playerTime').text(`Your time was ${modalTime}`);
+
+            this.x = H_INIT;
+            this.y =V_INIT;
         }
     }
 
@@ -111,8 +144,9 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [
-new Enemy(0, 68, 150),
-new Enemy(0, 234, 100)
+new Enemy(0, 68, 200),
+new Enemy(0, 234, 100),
+new Enemy(0, 151, 175)
 ];
 // Place the player object in a variable called player
 let player = new Player(H_INIT, V_INIT);
