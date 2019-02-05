@@ -131,6 +131,10 @@ class Player {
 
             this.x = H_INIT;
             this.y =V_INIT;
+
+            btnPlay.onclick = function(){
+                restart();
+            }
         }
     }
 
@@ -161,6 +165,19 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
+    console.log(allowedKeys[e.keyCode]);
+
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+function restart(player){
+    clearInterval(clock);
+    seconds = 1;
+    $('#seconds').text("00");
+    
+    minutes = 0;
+    $('#minutes').text("0" + minutes);
+    
+    clock = setInterval(timer, 1000);
+}
 
