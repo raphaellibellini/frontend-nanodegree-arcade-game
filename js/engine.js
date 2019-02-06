@@ -13,12 +13,12 @@
  * writing app.js a little simpler to work with.
  */
 
-var Engine = (function(global) {
+let Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas element's height/width and add it to the DOM.
      */
-    var doc = global.document,
+    let doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
@@ -38,7 +38,7 @@ var Engine = (function(global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
-        var now = Date.now(),
+        let now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
@@ -112,8 +112,8 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
-        var rowImages = [
-                'images/stone-block.png',   // Top row is stone
+        let rowImages = [
+                'images/water-block.png',   // Top row is water
                 'images/grass-block.png',   // Row 1 of 3 of grass
                 'images/grass-block.png',   // Row 2 of 3 of grass
                 'images/grass-block.png',   // Row 3 of 3 of grass
@@ -147,6 +147,7 @@ var Engine = (function(global) {
         renderEntities();
     }
 
+
     /* This function is called by the render function and is called on each game
      * tick. Its purpose is to then call the render functions you have defined
      * on your enemy and player entities within app.js
@@ -160,6 +161,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+        cp.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -179,7 +181,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-cat-girl.png'
+        'images/char-cat-girl.png',
+        'images/Selector.png'
     ]);
     Resources.onReady(init);
 

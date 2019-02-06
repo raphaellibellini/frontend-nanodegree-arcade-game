@@ -5,6 +5,7 @@ const V_INIT = 400;
 
 let minutes = 0;
 let seconds = 1;
+let level = 1;
 
 function timer () {
     if(seconds < 10){
@@ -27,6 +28,18 @@ function timer () {
 }
 
 let clock = setInterval(timer, 1000);
+
+class checkPoint {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.sprite = 'images/Selector.png';
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+}
 
 // Enemies our player must avoid
 class Enemy {
@@ -89,7 +102,7 @@ class Player {
         this.height = 50;
     }
     
-    update(dt, enemy) {
+    update(dt) {
 
     }
 
@@ -120,41 +133,28 @@ class Player {
         } 
     }
 
-    win() {
-        if(this.y === -15){
-            clearInterval(clock);
-
-            $("#myModal").modal();
-
-            let modalTime = $('#minutes').text() + ":" + $('#seconds').text();
-            $('#playerTime').text(`Your time was ${modalTime}`);
-
-            this.x = H_INIT;
-            this.y =V_INIT;
-
-            btnPlay.onclick = function(){
-                restart();
-            }
-        }
-    }
-
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-        player.win();
+        nextLevel(player, allEnemies, cp);
     }
 }
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+let bug1 = new Enemy(303, 68, 150);
+let bug2 = new Enemy(202, 151, 100);
+let bug3 = new Enemy(101, 234, 100);
+
 let allEnemies = [
-new Enemy(0, 68, 200),
-new Enemy(0, 234, 100),
-new Enemy(0, 151, 175),
-new Enemy(404, 317, 200)
+bug1,
+bug2,
+bug3
 ];
 // Place the player object in a variable called player
 let player = new Player(H_INIT, V_INIT);
+
+let cp = new checkPoint(0, -40);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -171,7 +171,9 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-function restart(player){
+function restart(){
+    level = 1;
+
     clearInterval(clock);
     seconds = 1;
     $('#seconds').text("00");
@@ -182,3 +184,124 @@ function restart(player){
     clock = setInterval(timer, 1000);
 }
 
+function nextLevel(player, allEnemies, cp) {
+    if(level === 1){
+       if(player.x === 0 && player.y === -15) {
+            player.x = H_INIT;
+            player.y = V_INIT;
+
+            cp.x = 101;
+
+            allEnemies[1].x = 0;
+            allEnemies[2].speed = 200;
+
+            level++;
+        }
+        else if((player.x === 101 && player.y === -15) ||
+            (player.x === 202 && player.y === -15) ||
+            (player.x === 303 && player.y === -15) ||
+            (player.x === 404 && player.y === -15)) {
+
+            player.x = H_INIT;
+            player.y = V_INIT;
+        }
+    }
+    else if(level === 2){
+       if(player.x === 101 && player.y === -15) {
+            player.x = H_INIT;
+            player.y = V_INIT;
+
+            cp.x = 202;
+
+            allEnemies.push(new Enemy(0,317,100));
+
+            level++;
+        } 
+        else if((player.x === 0 && player.y === -15) ||
+            (player.x === 202 && player.y === -15) ||
+            (player.x === 303 && player.y === -15) ||
+            (player.x === 404 && player.y === -15)) {
+
+            player.x = H_INIT;
+            player.y = V_INIT;
+        }
+    }       
+    else if(level === 3){
+       if(player.x === 202 && player.y === -15) {
+            player.x = H_INIT;
+            player.y = V_INIT;
+
+            cp.x = 303;
+
+            allEnemies[1].speed = 50;
+
+            level++;
+        } 
+        else if((player.x === 0 && player.y === -15) ||
+            (player.x === 101 && player.y === -15) ||
+            (player.x === 303 && player.y === -15) ||
+            (player.x === 404 && player.y === -15)) {
+
+            player.x = H_INIT;
+            player.y = V_INIT;
+        }
+    }   
+    else if(level === 4){
+       if(player.x === 303 && player.y === -15) {
+            player.x = H_INIT;
+            player.y = V_INIT;
+
+            cp.x = 404;
+
+            allEnemies[0].speed = 225;
+
+            level++;
+        } 
+        else if((player.x === 0 && player.y === -15) ||
+            (player.x === 101 && player.y === -15) ||
+            (player.x === 202 && player.y === -15) ||
+            (player.x === 404 && player.y === -15)) {
+
+            player.x = H_INIT;
+            player.y = V_INIT;
+        }
+    }   
+    else if(level === 5){
+       if(player.x === 404 && player.y === -15) {
+            clearInterval(clock);
+
+            $("#myModal").modal();
+
+            let modalTime = $('#minutes').text() + ":" + $('#seconds').text();
+            $('#playerTime').text(`Your time was ${modalTime}`);
+
+            player.x = H_INIT;
+            player.y = V_INIT;
+
+            cp.x = 0;
+
+            allEnemies.pop();
+            allEnemies[0].x = 303;
+            allEnemies[0].y = 68;
+            allEnemies[0].speed = 150;
+            allEnemies[1].x = 202;
+            allEnemies[1].y = 151;
+            allEnemies[1].speed = 100;
+            allEnemies[2].x = 101;
+            allEnemies[2].y = 234;
+            allEnemies[2].speed = 100;
+
+            btnPlay.onclick = function(){
+                restart();
+            } 
+        } 
+        else if((player.x === 0 && player.y === -15) ||
+            (player.x === 101 && player.y === -15) ||
+            (player.x === 202 && player.y === -15) ||
+            (player.x === 303 && player.y === -15)) {
+
+            player.x = H_INIT;
+            player.y = V_INIT;
+        }
+    }   
+}
