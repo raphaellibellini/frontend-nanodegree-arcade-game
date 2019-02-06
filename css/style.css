@@ -14,3 +14,12 @@ body {
 	text-align: center;
 	border-radius: 5px;
 }
+
+.modal-body {
+	font-size: 16px;
+}
+
+.modal-footer {
+	margin: 0 auto;
+	text-align: center;
+}
