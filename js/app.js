@@ -54,7 +54,7 @@ class Enemy {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-        this.sprite = 'images/enemy-bug.png';
+        this.sprite = 'images/enemy-bug-red.png';
     }
 
     // Update the enemy's position, required method for game
@@ -194,6 +194,7 @@ function nextLevel(player, allEnemies, cp) {
 
             allEnemies[1].x = 0;
             allEnemies[2].speed = 200;
+            allEnemies[2].sprite = 'images/enemy-bug-purple.png'
 
             level++;
         }
@@ -254,6 +255,7 @@ function nextLevel(player, allEnemies, cp) {
             cp.x = 404;
 
             allEnemies[0].speed = 225;
+            allEnemies[0].sprite = 'images/enemy-bug-purple.png'
 
             level++;
         } 
@@ -284,12 +286,14 @@ function nextLevel(player, allEnemies, cp) {
             allEnemies[0].x = 303;
             allEnemies[0].y = 68;
             allEnemies[0].speed = 150;
+            allEnemies[0].sprite = 'images/enemy-bug-red.png'
             allEnemies[1].x = 202;
             allEnemies[1].y = 151;
             allEnemies[1].speed = 100;
             allEnemies[2].x = 101;
             allEnemies[2].y = 234;
             allEnemies[2].speed = 100;
+            allEnemies[2].sprite = 'images/enemy-bug-red.png'
 
             btnPlay.onclick = function(){
                 restart();

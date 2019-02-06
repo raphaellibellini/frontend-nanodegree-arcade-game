@@ -4,9 +4,13 @@ body {
 }
 
 .time {
-	margin: 20px 0 0 0;
+	width: 15%;
+	margin: 20px auto;
 	font-size: 30px;
 	font-weight: 700;
 	font-family: 'Roboto Mono', monospace;
 	color: #b30000;
+	background-color: #BDBDBD;
+	text-align: center;
+	border-radius: 5px;
 }
