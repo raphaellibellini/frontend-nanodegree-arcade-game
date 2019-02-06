@@ -103,7 +103,7 @@ class Player {
     }
     
     update(dt) {
-        this.x += this.speed * dt;
+        
     }
 
     handleInput(move) {
