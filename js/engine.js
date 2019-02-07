@@ -22,11 +22,35 @@ let Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        clock,
+        level = 1,
+        minutes = 0,
+        seconds = 1;
 
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+
+    function timer () {
+        if(seconds < 10){
+            $('#seconds').text("0" + seconds);
+        }else{
+            $('#seconds').text(seconds);
+        }
+
+        if(minutes < 10){
+            $('#minutes').text("0" + minutes);
+        }else{
+            $('#minutes').text(minutes);
+        }
+        
+        seconds++;
+        if(seconds === 60) {
+            seconds = 0;
+            minutes++;   
+        }
+    }
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -63,7 +87,7 @@ let Engine = (function(global) {
      * game loop.
      */
     function init() {
-        reset();
+        clock = setInterval(timer, 1000);
         lastTime = Date.now();
         main();
     }
@@ -99,7 +123,6 @@ let Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -145,6 +168,7 @@ let Engine = (function(global) {
         }
 
         renderEntities();
+        nextLevel(player, allEnemies, cp);
     }
 
 
@@ -164,12 +188,133 @@ let Engine = (function(global) {
         cp.render();
     }
 
-    /* This function does nothing but it could have been a good place to
-     * handle game reset states - maybe a new game menu or a game over screen
-     * those sorts of things. It's only called once by the init() method.
-     */
-    function reset() {
-        // noop
+    function restart() {
+        level = 1;
+
+        clearInterval(clock);
+        seconds = 1;
+        $('#seconds').text("00");
+        
+        minutes = 0;
+        $('#minutes').text("0" + minutes);
+        
+        clock = setInterval(timer, 1000);
+    }
+
+    function nextLevel(player, allEnemies, cp) {
+        if(level === 1){
+           if(player.x === 0 && player.y === -15) {
+                player.initPosition();
+
+                cp.x = 101;
+
+                allEnemies[1].x = 0;
+                allEnemies[2].speed = 200;
+                allEnemies[2].sprite = 'images/enemy-bug-purple.png'
+
+                level++;
+            }
+            else if((player.x === 101 && player.y === -15) ||
+                (player.x === 202 && player.y === -15) ||
+                (player.x === 303 && player.y === -15) ||
+                (player.x === 404 && player.y === -15)) {
+
+                player.initPosition();
+            }
+        }
+        else if(level === 2){
+           if(player.x === 101 && player.y === -15) {
+                player.initPosition();
+
+                cp.x = 202;
+
+                allEnemies.push(new Enemy(0,317,100));
+
+                level++;
+            } 
+            else if((player.x === 0 && player.y === -15) ||
+                (player.x === 202 && player.y === -15) ||
+                (player.x === 303 && player.y === -15) ||
+                (player.x === 404 && player.y === -15)) {
+
+                player.initPosition();
+            }
+        }       
+        else if(level === 3){
+           if(player.x === 202 && player.y === -15) {
+                player.initPosition();
+
+                cp.x = 303;
+
+                allEnemies[1].speed = 50;
+
+                level++;
+            } 
+            else if((player.x === 0 && player.y === -15) ||
+                (player.x === 101 && player.y === -15) ||
+                (player.x === 303 && player.y === -15) ||
+                (player.x === 404 && player.y === -15)) {
+
+                player.initPosition();
+            }
+        }   
+        else if(level === 4){
+           if(player.x === 303 && player.y === -15) {
+                player.initPosition();
+
+                cp.x = 404;
+
+                allEnemies[0].speed = 225;
+                allEnemies[0].sprite = 'images/enemy-bug-purple.png'
+
+                level++;
+            } 
+            else if((player.x === 0 && player.y === -15) ||
+                (player.x === 101 && player.y === -15) ||
+                (player.x === 202 && player.y === -15) ||
+                (player.x === 404 && player.y === -15)) {
+
+                player.initPosition();
+            }
+        }   
+        else if(level === 5){
+           if(player.x === 404 && player.y === -15) {
+                clearInterval(clock);
+
+                $("#myModal").modal();
+
+                let modalTime = $('#minutes').text() + ":" + $('#seconds').text();
+                $('#playerTime').text(`Your time was ${modalTime}`);
+
+                player.initPosition();
+
+                cp.x = 0;
+
+                allEnemies.pop();
+                allEnemies[0].x = 303;
+                allEnemies[0].y = 68;
+                allEnemies[0].speed = 150;
+                allEnemies[0].sprite = 'images/enemy-bug-red.png'
+                allEnemies[1].x = 202;
+                allEnemies[1].y = 151;
+                allEnemies[1].speed = 100;
+                allEnemies[2].x = 101;
+                allEnemies[2].y = 234;
+                allEnemies[2].speed = 100;
+                allEnemies[2].sprite = 'images/enemy-bug-red.png'
+
+                btnPlay.onclick = function(){
+                    restart();
+                } 
+            } 
+            else if((player.x === 0 && player.y === -15) ||
+                (player.x === 101 && player.y === -15) ||
+                (player.x === 202 && player.y === -15) ||
+                (player.x === 303 && player.y === -15)) {
+
+                player.initPosition();
+            }
+        }   
     }
 
     /* Go ahead and load all of the images we know we're going to need to
